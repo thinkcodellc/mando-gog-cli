@@ -1,0 +1,33 @@
+# Railway configuration for gogcli service
+[build]
+builder = "docker"
+
+[deploy]
+# Service name
+name = "mando-gog-cli"
+
+# Health check configuration
+healthcheck = "/health"
+healthcheck_interval = 30
+healthcheck_timeout = 10
+healthcheck_retries = 3
+
+# Environment variables
+[env]
+PORT = "8080"
+GOG_CONFIG_DIR = "/app/config"
+
+# Persistent volume configuration
+[volumes]
+config = "/app/config"
+
+# Service configuration
+[service]
+port = 8080
+memory = 512
+cpu = 1000
+
+# Docker configuration
+[docker]
+context = "."
+dockerfile = "dockerfile"
