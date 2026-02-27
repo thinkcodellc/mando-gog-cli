@@ -1,0 +1,74 @@
+# Go binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Go build artifacts
+bin/
+dist/
+out/
+build/
+
+# Go test artifacts
+*.out
+*.test
+coverage.txt
+coverage.html
+profile.out
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Configuration files (local)
+*.config
+config.json
+.env
+.env.local
+.env.development
+.env.production
+
+# gogcli configuration (will be in volume)
+/app/config/
+config/
+
+# Docker
+.dockerignore
+Dockerfile.debug
+
+# Node.js (if present)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if present)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+.coverage
+.pytest_cache/
