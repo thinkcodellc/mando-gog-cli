@@ -1,65 +1,46 @@
-# gogcli Railway Deployment
+## googleworkspace CLI Railway Deployment
 
-This repository contains the Docker configuration for deploying gogcli as a web service on Railway.
+This repository provides a minimal HTTP wrapper that runs the official Google Workspace CLI (`gws`) inside a container and keeps the container always on. Use the `/run` HTTP endpoint to execute `gws` commands remotely.
 
-## Overview
+Important: do NOT commit service account JSON to the repo. Store it as a Railway secret named `GSA_JSON`.
 
-This setup provides a REST API interface to execute gogcli commands via HTTP requests. The service automatically handles authentication using environment variables and persistent storage.
+Usage
 
-## Features
+- POST /run with JSON body: `{ "args": ["users", "list", "--format=json"] }`
+- Or GET /run?arg=users&arg=list
 
-- **Secure Authentication**: Client secrets stored as Railway environment variables
-- **Persistent Configuration**: Authentication tokens persist across container restarts
-- **REST API Interface**: Execute gogcli commands via HTTP endpoints
-- **Railway Optimized**: Pre-configured for Railway deployment with proper health checks
+Examples
 
-## API Usage
+Run locally (mount a service account file):
 
-The service exposes a `/run` endpoint to execute gogcli commands:
-
-```
-GET /run?cmd=command&args=arg1&args=arg2
+```bash
+docker build -t gws-railway .
+docker run --rm -e PORT=8080 -e GSA_JSON="$(cat service-account.json | sed 's/"/\\"/g')" -p 8080:8080 gws-railway
 ```
 
-Example:
+Then call:
+
+```bash
+curl -X POST http://localhost:8080/run -d '{"args":["users","list","--format=json"]}' -H 'Content-Type: application/json'
 ```
-GET /run?cmd=list&args=owned
-```
 
-## Railway Configuration
+Railway configuration
 
-### Environment Variables
+Set the following Railway environment variables for your service:
 
-Add the following environment variable to your Railway service:
+- `GSA_JSON` — full service account JSON contents (paste into Railway secret)
+- `PORT` — service port (default `8080`)
 
-- `GOG_CLIENT_SECRET_JSON`: Content of your `client_secret.json` file
+Railway build
 
-### Persistent Volume
+The repository uses `Dockerfile` (multi-stage) to build the `gws` binary from https://github.com/googleworkspace/cli and the small HTTP wrapper server.
 
-The service uses a persistent volume mounted at `/app/config` to store:
-- `client_secret.json` (created from environment variable)
-- Authentication tokens and configuration
+Security
 
-## Setup Instructions
+- Store service account JSON in Railway secrets only.
+- Grant the service account the least-privilege roles required for the CLI operations you will run.
 
-1. **Deploy to Railway**: Connect this repository to your Railway project
-2. **Configure Environment**: Add `GOG_CLIENT_SECRET_JSON` environment variable
-3. **Set Volume**: Ensure persistent volume is mounted at `/app/config`
-4. **Test**: Make API requests to the `/run` endpoint
+Notes
 
-## Security Notes
-
-- Never commit `client_secret.json` to the repository
-- Use Railway environment variables for all sensitive configuration
-- The service automatically handles authentication on startup
-- Authentication tokens persist across container restarts via the persistent volume
-
-## Docker Build
-
-The Dockerfile uses a multi-stage build:
-1. **Builder Stage**: Compiles the Go server
-2. **Runtime Stage**: Creates minimal Alpine container with gogcli
-
-## Health Checks
-
-The service includes health check endpoints for Railway monitoring.
+- The container runs an always-on HTTP service; each `/run` request executes `gws` and returns its stdout/stderr.
+- For scheduled tasks, use Railway cron or an external scheduler to POST `/run` to the service.

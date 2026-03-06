@@ -1,33 +1,21 @@
-# Railway configuration for gogcli service
+# Railway configuration for Google Workspace CLI service
 [build]
-builder = "docker"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-# Service name
-name = "mando-gog-cli"
+name = "googleworkspace-cli"
 
 # Health check configuration
-healthcheck = "/health"
-healthcheck_interval = 30
-healthcheck_timeout = 10
-healthcheck_retries = 3
+healthcheckPath = "/health"
+healthcheckTimeout = 10
 
 # Environment variables
 [env]
 PORT = "8080"
-GOG_CONFIG_DIR = "/app/config"
-
-# Persistent volume configuration
-[volumes]
-config = "/app/config"
 
 # Service configuration
 [service]
 port = 8080
 memory = 512
 cpu = 1000
-
-# Docker configuration
-[docker]
-context = "."
-dockerfile = "dockerfile"
