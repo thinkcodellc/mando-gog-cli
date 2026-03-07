@@ -1,3 +1,4 @@
+# gogcli Docker container - downloads pre-built binary from GitHub releases
 FROM golang:1.21-alpine AS builder
 RUN apk add --no-cache git
 WORKDIR /src
