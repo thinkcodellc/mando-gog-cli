@@ -14,6 +14,10 @@ healthcheckTimeout = 10
 [env]
 PORT = "8080"
 GOG_KEYRING_BACKEND = "file"
+GOG_ACCOUNT = "jari.edo@gmail.com"
+
+# Volume mount for persistent credentials (configure in Railway dashboard)
+# Mount Path: /root/.config/gogcli
 
 # Service configuration
 [service]
