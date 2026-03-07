@@ -56,7 +56,7 @@ func runHandler(w http.ResponseWriter, r *http.Request) {
     ctx, cancel := context.WithTimeout(r.Context(), 2*time.Minute)
     defer cancel()
 
-    cmd := exec.CommandContext(ctx, "gws", req.Args...)
+    cmd := exec.CommandContext(ctx, "gog", req.Args...)
     out, err := cmd.CombinedOutput()
     w.Header().Set("Content-Type", "application/json")
     if err != nil {

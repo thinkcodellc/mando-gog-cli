@@ -1,10 +1,10 @@
-# Railway configuration for Google Workspace CLI service
+# Railway configuration for gogcli (Google Workspace CLI) service
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-name = "googleworkspace-cli"
+name = "gogcli"
 
 # Health check configuration
 healthcheckPath = "/health"
@@ -13,6 +13,7 @@ healthcheckTimeout = 10
 # Environment variables
 [env]
 PORT = "8080"
+GOG_KEYRING_BACKEND = "file"
 
 # Service configuration
 [service]
