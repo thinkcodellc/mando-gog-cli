@@ -1,0 +1,3 @@
+module github.com/thinkcodellc/mando-gog-cli/server
+
+go 1.21
