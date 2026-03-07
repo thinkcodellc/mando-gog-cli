@@ -6,16 +6,16 @@ COPY . .
 
 ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 
-RUN GOBIN=/out go install github.com/steipete/gogcli/cmd/gog@latest
-
 RUN cd /src/server && go build -o /out/gws-server
 
 FROM alpine:3.18
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache bash curl ca-certificates
 
-COPY --from=builder /out/gog /usr/local/bin/gog
+RUN curl -fsSL https://github.com/steipete/gogcli/releases/latest/download/gog-linux-amd64 -o /usr/local/bin/gog && \
+    chmod +x /usr/local/bin/gog
+
 COPY --from=builder /out/gws-server /usr/local/bin/gws-server
-RUN chmod +x /usr/local/bin/gog /usr/local/bin/gws-server
+RUN chmod +x /usr/local/bin/gws-server
 
 RUN mkdir -p /root/.config/gogcli
 
