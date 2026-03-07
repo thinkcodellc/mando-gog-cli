@@ -6,7 +6,7 @@ WORKDIR /src
 # Copy go.mod and go.sum for building the server
 COPY go.mod go.sum ./
 
-COPY server/main.go /src/server/main.go
+COPY server/main.go ./
 
 ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOTOOLCHAIN=auto
 
