@@ -18,7 +18,7 @@ This repository provides a minimal HTTP wrapper that runs [gogcli](https://githu
    - Mount Path: `/root/.config/gogcli`
 5. **Set environment variables**:
    - `GOG_KEYRING_BACKEND` = `file`
-   - `GOG_ACCOUNT` = your Gmail address (e.g., `jari.edo@gmail.com`)
+   - `GOG_ACCOUNT` = your Gmail address (e.g., `jaberdaionhaberdon93@gmail.com`)
 
 ### Post-Deployment Authentication
 
@@ -45,7 +45,7 @@ Since Railway has no browser, you need to authenticate via the manual OAuth flow
 
 3. **Start OAuth flow**:
    ```bash
-   gog auth add jari.edo@gmail.com --services gmail,calendar,drive --manual
+   gog auth add jaberdaionhaberdon93@gmail.com --services gmail,calendar,drive --manual
    ```
    
    This will output a URL like:
@@ -62,7 +62,7 @@ Since Railway has no browser, you need to authenticate via the manual OAuth flow
 5. **Complete auth in container**:
    ```bash
    # Replace with your actual redirect URL
-   gog auth add jari.edo@gmail.com --manual --auth-url 'http://127.0.0.1:8080/oauth2/callback?code=XXX&state=YYY'
+   gog auth add jaberdaionhaberdon93@gmail.com --manual --auth-url 'http://127.0.0.1:8080/oauth2/callback?code=XXX&state=YYY'
    ```
 
 6. **Verify**:
